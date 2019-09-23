@@ -14,6 +14,11 @@
 # so faster rates mean that less evidence is likely to accumulate on each step. we could make
 # these parameters more intuitive by taking 1/rate.1 and 1/rate.2 as the values to rexp().
 
+
+#fix s.t. if they both hit the value in the same round, then choose which one exceeds it more
+#if still a tie, then the positive one
+
+
 #correct = rate.1 crossed
 accumulator.model <- function(samples, rate.1=40, rate.2=40, criterion=3){
   accuracy.array <- vector()
@@ -28,7 +33,18 @@ accumulator.model <- function(samples, rate.1=40, rate.2=40, criterion=3){
       intevsigneg <- intevsigneg - rexp(1, rate.2)
       rt <- rt + 1
     }
-    corr <- intevsigpos > criterion
+    
+    if ((-criterion > intevsigneg) && (intevsigpos > criterion)) {
+      if (abs(intevsigpos) < abs(intevsigneg)) {
+        corr <- FALSE
+      } else {
+        corr <- TRUE
+      }
+    } else {
+      corr <- intevsigpos > criterion
+    }
+    
+    
     accuracy.array <- c(accuracy.array, corr)
     rt.array <- c(rt.array, rt)
   }
