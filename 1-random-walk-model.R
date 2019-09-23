@@ -53,3 +53,4 @@ incorrect.data <- initial.test %>% filter(correct==FALSE)
 
 hist(correct.data$rt)
 hist(incorrect.data$rt)
+

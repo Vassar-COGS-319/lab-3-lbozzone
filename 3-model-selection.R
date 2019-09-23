@@ -12,6 +12,29 @@
 # 2nd HINT: Don't adjust the sdrw parameter of the random.walk.model or the criterion
 # paramter of the accumulator model.
 
+
+#run the other documents first
+#first model
+model1 <- random.walk.model(1000, drift = .02, criterion=3)
+
+#correct
+mean(model1[model1$correct == TRUE,]$rt)
+#incorrect
+mean(model1[model1$correct == FALSE,]$rt)
+#average
+mean(sum(model1[model1$correct == TRUE,]$correct)/1000)
+
+###########################################################################
+#second model
+model2 <- accumulator.model(1000, rate.1 = 87, rate.2 = 84.4, criterion=3)
+
+#correct
+mean(model2[model2$correct == TRUE,]$rt)
+#incorrect
+mean(model2[model2$correct == FALSE,]$rt)
+#average
+mean(sum(model2[model2$correct == TRUE,])/1000)
+
 # You don't need to get a perfect match. Just get in the ballpark. 
 
 

@@ -26,9 +26,6 @@ accumulator.model <- function(samples, rate.1=40, rate.2=40, criterion=3){
     while((-criterion <= intevsigneg) && (intevsigpos <= criterion)) {
       intevsigpos <- intevsigpos + rexp(1, rate.1)
       intevsigneg <- intevsigneg - rexp(1, rate.2)
-  
-      #print(intevsigpos)
-      #print(intevsigneg)
       rt <- rt + 1
     }
     corr <- intevsigpos > criterion
@@ -70,3 +67,4 @@ incorrect.data <- initial.test %>% filter(correct==FALSE)
 
 hist(correct.data$rt)
 hist(incorrect.data$rt)
+
