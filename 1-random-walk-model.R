@@ -9,13 +9,26 @@
 # sdrw is the variability in the drift rate (default value is 0.3)
 # criterion is the threshold for a response (default value is 3)
 
+#making intevsig a scalar bc don't need to plot individ values
+
 random.walk.model <- function(samples, drift=0, sdrw=0.3, criterion=3){
-  
+  accuracy.array <- vector()
+  rt.array <- vector()
+  for (i in seq(from = 1, to = as.numeric(samples))) {
+    intevsig <- 0
+    rt <- 0
+    while((-criterion <= intevsig) && (intevsig <= criterion)) {
+      intevsig <- intevsig + rnorm(1, mean = drift, sd = sdrw)
+      rt <- rt + 1
+    }
+    corr <- intevsig > criterion
+    accuracy.array <- c(accuracy.array, corr)
+    rt.array <- c(rt.array, rt)
+  }
   output <- data.frame(
     correct = accuracy.array,
     rt = rt.array
   )
-  
   return(output)
 }
 
