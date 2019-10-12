@@ -32,6 +32,8 @@ random.walk.model <- function(samples, drift=0, sdrw=0.3, criterion=3){
   return(output)
 }
 
+#code looks good overall
+
 # test the model ####
 
 # if the model is working correctly, then the line below should generate a data frame with 

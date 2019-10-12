@@ -53,14 +53,10 @@ accumulator.model <- function(samples, rate.1=40, rate.2=40, criterion=3){
     rt = rt.array
   )
   return(output)
-  
-  output <- data.frame(
-    correct = accuracy.array,
-    rt = rt.array
-  )
-  
-  return(output)
 }
+
+#had a chunk of code twice... I wrote for case if equal
+#otherwise looks good
 
 # test the model ####
 

@@ -24,6 +24,18 @@ mean(model1[model1$correct == FALSE,]$rt)
 #average
 mean(sum(model1[model1$correct == TRUE,]$correct)/5000)
 
+#Josh's code
+set.seed(12604) # to ensure that you see the same results that I did!
+
+rw.model.result <- random.walk.model(1000, drift=0.012, sdrw=0.3, criterion = 4.8)
+rw.model.result %>% group_by(correct) %>% summarize(mean.rt = mean(rt))
+mean(rw.model.result$correct)
+
+acc.model.result <- accumulator.model(1000, rate.1 = 85, rate.2 = 91, criterion=3)
+acc.model.result %>% group_by(correct) %>% summarize(mean.rt = mean(rt))
+mean(acc.model.result$correct)
+
+#got same results as Josh -- overall looks good
 ###########################################################################
 #second model
 model2 <- accumulator.model(10000, rate.1 = 84, rate.2 =90, criterion=3)
@@ -70,6 +82,16 @@ incorrect2.data <- model2 %>% filter(correct==FALSE)
 hist(correct2.data$rt)
 hist(incorrect2.data$rt)
 
+#####Josh's histogram code#####
+layout(matrix(1:4, nrow=2, byrow=T))
+hist((rw.model.result %>% filter(correct==TRUE))$rt, breaks=seq(0,2000,100), main="RW Model, correct", xlab="RT")
+hist((rw.model.result %>% filter(correct==FALSE))$rt, breaks=seq(0,2000,100), main="RW Model, incorrect", xlab="RT")
+hist((acc.model.result %>% filter(correct==TRUE))$rt, breaks=seq(0,2000,10), main="ACC Model, correct", xlab="RT")
+hist((acc.model.result %>% filter(correct==FALSE))$rt, breaks=seq(0,2000,10), main="ACC Model, incorrect", xlab="RT")
+
+
+
+#####3
 
 #Considering the historgrams, the one from the random walk model (1) is skewed to the right.
 #There are even some data points that are near 1500ms, which is much higher than the mean of
@@ -78,3 +100,11 @@ hist(incorrect2.data$rt)
 #the mean reaction time was close to, say 5ms, then I would expect it to be more skewed right).
 #Thus we could use the distribution as an indicator for the strength of the model,
 #and in this case I'd choose the accumulator model (2).
+
+#Also larger SD. 
+#Josh: 
+rw.model.result %>% group_by(correct) %>% summarize(sd.rt = sd(rt))
+acc.model.result %>% group_by(correct) %>% summarize(sd.rt = sd(rt))
+#Confirms ^
+
+##Overall, code is about the same and gets similar results. 
